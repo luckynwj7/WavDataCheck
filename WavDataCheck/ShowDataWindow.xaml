@@ -1,0 +1,45 @@
+﻿<Window x:Class="WavDataCheck.ShowDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WavDataCheck"
+        Closing="Window_Closing"
+        mc:Ignorable="d"
+        Title="DataCheck - DataView" Height="950" Width="630"
+        Top="50" Left="1050">
+    <StackPanel Margin="10" Width="590">
+        <StackPanel Height="40" Orientation="Horizontal">
+            <Border BorderBrush="Black" BorderThickness="1" Height="10" Width="15" Margin="0,0,5,0" >
+                <TextBlock Background="Red" Height="10" Width="15" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            </Border>
+            <TextBlock Text="현재 보고 있는 데이터" TextAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+            <Border BorderBrush="Black" BorderThickness="1" Height="10" Width="15" Margin="0,0,5,0">
+                <TextBlock Background="Yellow" Height="10" Width="15" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            </Border>
+            <TextBlock Text="직전에 봤던 데이터" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="20">
+            <Border BorderBrush="Black" BorderThickness="2">
+                <TextBlock Text="인덱스" Width="50" TextAlignment ="Center"/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <TextBlock Text="음성파일" Width="150" TextAlignment ="Center"/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <TextBlock Text="전사" Width="150" TextAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <TextBlock Text="시스템 인식" Width="150" TextAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <TextBlock Text="선택" Width="50" TextAlignment="Center"/>
+            </Border>
+        </StackPanel>
+        <ScrollViewer Height="800" x:Name="dataScrollViewer">
+            <StackPanel x:Name="dataListSt">
+                
+            </StackPanel>
+        </ScrollViewer>
+    </StackPanel>
+</Window>

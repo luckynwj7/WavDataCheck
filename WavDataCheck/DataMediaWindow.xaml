@@ -1,0 +1,126 @@
+﻿<Window x:Class="WavDataCheck.DataMediaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WavDataCheck"
+        mc:Ignorable="d"
+        Title="DataCheck" Height="1000" Width="1000"
+        Closing="Window_Closing"
+        Top="20" Left="50"
+        KeyDown="Window_KeyDown"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="Data Check" FontSize="50" Margin="30"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0,30,50,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="서버 번호 : " FontSize="15"></TextBlock>
+                <TextBlock FontSize="15" Width="60" x:Name="serverNameTxt"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="진행률 : " FontSize="15"></TextBlock>
+                <TextBlock FontSize="15" Width="40" Text="0" x:Name="jobRateTxt" Foreground="Red"></TextBlock>
+                <TextBlock FontSize="15" Text="%" Foreground="Red"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="남은 작업량 : " FontSize="15"></TextBlock>
+                <TextBlock FontSize="15" Width="45" Text="0" Margin="10,0,0,0" x:Name="nmgJobTxt" Foreground="Red"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="진행량/총 작업량 : " FontSize="15"></TextBlock>
+                <TextBlock FontSize="15" Width="45" Text="0" Margin="10,0,0,0" x:Name="jobCountTxt" Foreground="Red"></TextBlock>
+                <TextBlock FontSize="15" Text="/"></TextBlock>
+                <TextBlock FontSize="15" Width="60" Text="0" Margin="10,0,0,0" x:Name="fullJobTxt"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="출력 파일 수 : " FontSize="15"></TextBlock>
+                <TextBlock FontSize="15" Width="45" Text="0" Margin="10,0,0,0" x:Name="fullFileTxt"></TextBlock>
+                <TextBlock FontSize="15" Width="45" Text="개"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="50,20,0,0" Height="150">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="인덱스 : " FontSize="20"></TextBlock>
+                <TextBlock FontSize="20" Text="1" x:Name="indexTxt"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="파일명 : " FontSize="20"></TextBlock>
+                <TextBlock FontSize="20" x:Name="fileNameTxt"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="시스템 인식 : " FontSize="20"></TextBlock>
+                <TextBlock FontSize="20" x:Name="systemResultTxt"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="3" Height="20" Margin="50,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="420"/>
+                <ColumnDefinition Width="185*"/>
+                <ColumnDefinition Width="76*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Slider x:Name= "progressSlider" Height="20" VerticalAlignment="Top" Margin="0,0,8,0" ValueChanged="progressSlider_ValueChanged" Thumb.DragDelta="progressSlider_DragDelta"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.ColumnSpan="2">
+                <TextBlock Text="00:00" x:Name="progressTimeTxt"></TextBlock>
+                <TextBlock Text=" / "></TextBlock>
+                <TextBlock Text="00:00" x:Name="totalTimeTxt"></TextBlock>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="4" Margin="0,-50,70,0" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="볼륨" Margin="0,0,10,0"></TextBlock>
+                <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="79" Value="0.5" Maximum="1" Minimum="0" Thumb.DragDelta="volumeSlider_DragDelta"/>
+                <TextBlock Text="0" Margin="10,0,0,0" Width="30" x:Name="volumeTxt"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <TextBlock Text="배속" Margin="0,0,10,0"></TextBlock>
+                <Slider x:Name="speedSlider" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="79" Value="1" Minimum="0.5" Maximum="2" Thumb.DragDelta="speedSlider_DragDelta"/>
+                <TextBlock Text="0" Margin="10,0,0,0" Width="30" x:Name="speedTxt"></TextBlock>
+                <TextBlock Text="%" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="5" Margin="40,0,0,0" Orientation="Horizontal" Height="50">
+            <Button Width="100" Margin="0,0,10,0" x:Name="musicPlayBtn" Click="musicPlayBtn_Click">재생</Button>
+            <Button Width="100" Margin="0,0,10,0" x:Name="musicPauseBtn" Click="musicPauseBtn_Click">일시정지</Button>
+            <Button Width="100" Margin="0,0,10,0" x:Name="musicStopBtn" Click="musicStopBtn_Click">다시 듣기(F5)</Button>
+            <Button Width="100" Margin="20,0,10,0" x:Name="prevFileBtn" Click="prevFileBtn_Click">이전(F11)</Button>
+            <Button Width="100" Margin="0,0,10,0" x:Name="nextFileBtn" Click="nextFileBtn_Click">다음(F12)</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="40,20,0,0">
+            <TextBlock Text="전사 내용" FontSize="20" VerticalAlignment="Center" Margin="10"></TextBlock>
+            <TextBox Width="300" VerticalAlignment="Center" FontSize="20" Margin="10" x:Name="humanResultTxt" KeyDown="humanResultTxt_KeyDown"></TextBox>
+            <Button Width="100" Height="30" x:Name="submitBtn" Click="submitBtn_Click">제출</Button>
+            <Button Width="100" Height="30" Margin="10" x:Name="delRowBtn" Click="delRowBtn_Click">행 및 파일 삭제</Button>
+            <TextBlock Text="F1->/o // F2->/f" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Text="" Margin="0,-80,60,0" FontSize="20" VerticalAlignment="Top" Foreground="Red" x:Name="overlapJobTxt"></TextBlock>
+            <TextBlock Text="인덱스 이동" FontSize="20" Margin="0,0,10,0"></TextBlock>
+            <TextBox FontSize="20" Width="100" x:Name="moveIndexTxt" KeyDown="moveIndexTxt_KeyDown"></TextBox>
+            <Button Width="100" Margin="10,0,0,0" x:Name="moveIndexBtn" Click="moveIndexBtn_Click">이동</Button>
+
+            <Button Width="200" Margin="50,0" x:Name="showDataBtn" Click="showDataBtn_Click">데이터 펼쳐보기</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="8" HorizontalAlignment="Right" Margin="0,-30,80,0">
+            <Button Width="200" Height="60" x:Name="endZipBtn" Click="endZipBtn_Click">마무리(압축하기)</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="9" HorizontalAlignment="Right" Margin="0,-230,300,0">
+            <Button Width="200" Height="60" x:Name="saveAndCheckBtn" Click="saveAndCheckBtn_Click">정렬 및 저장 후 다른 파일 검수</Button>
+        </StackPanel>
+    </Grid>
+</Window>
