@@ -549,7 +549,7 @@ namespace WavDataCheck
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(MessageBox.Show("저장하지 않고 종료하면 파일 및 csv파일 상태가 정리되지 않습니다. 그래도 종료하시겠습니까?","WARNING",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if(MessageBox.Show("저장하지 않고 종료하면\ncsv파일은 저장되어 있지만 정렬이 되어있지 않고\nwav파일이 제대로 삭제되지 않습니다.\n그래도 종료하시겠습니까?","WARNING",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 System.Environment.Exit(0);
             }
