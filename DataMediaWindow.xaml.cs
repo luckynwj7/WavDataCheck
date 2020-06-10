@@ -88,6 +88,7 @@ namespace WavDataCheck
             get { return scrollViewFlag; }
             set { scrollViewFlag = value; }
         }
+        private bool autoModeActivateFlag; // 자동 실행을 조정해주는 변수
 
         private ShowDataWindow showWin;
 
@@ -102,14 +103,16 @@ namespace WavDataCheck
             currentJobRow = 0;
             currentIndex = 0;
             realFileCount = 0;
+            autoModeActivateFlag = false;
             myMediaPlayer = new MediaPlayer();
+            saveAndCheckBtn.Content += "\n(압축하지 않음. 검수전용)"; //버튼 컨텐츠
         }
         public void WindowStart()
         {
             showWin = ShowDataWindow.GetShowDataWindow(myFileRep.MyDataTable);
             showWin.Show();
 
-            saveAndCheckBtn.Content += "\n(압축하지 않음. 검수전용)"; //버튼 컨텐츠
+            
             prevIndex = -1; // 이전 인덱스 초기값. -1로 하여 거절하게 만듬
             scrollViewFlag = false; //스크롤 뷰 초기값
 
@@ -175,6 +178,9 @@ namespace WavDataCheck
 
         public void WindowStatusUpdate(int jobIndex)
         {
+            myMediaPlayer.MediaOpened -= loadedMusic; // 원래 있던 미디어 쓰레드를 지움
+            myMediaPlayer.MediaEnded -= endedMusic; // 원래 있던 미디어 쓰레드를 지움
+
             fullFileTxt.Text = realFileCount.ToString(); // 전체 파일 개수
 
             indexTxt.Text = (jobIndex + 1).ToString(); // 인덱스
@@ -210,6 +216,7 @@ namespace WavDataCheck
             //파일 이름으로 미디어 재생
             myMediaPlayer.Open(new Uri(mediaFilePath + "\\" + fileNameTxt.Text));
             myMediaPlayer.MediaOpened += loadedMusic;
+            myMediaPlayer.MediaEnded += endedMusic;
             myMediaPlayer.Play();
         }
 
@@ -222,6 +229,7 @@ namespace WavDataCheck
 
         private void prevFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            AutoModeDeactivate(); // 오토모드 종료
             CurrentIndexMinus();
         }
 
@@ -360,6 +368,18 @@ namespace WavDataCheck
             TimeSpan newTimeSpan = myMediaPlayer.Position;
             progressSlider.Value = newTimeSpan.TotalMilliseconds;
             progressTimeTxt.Text = newTimeSpan.ToString("mm':'ss':'ff");
+        }
+        private void endedMusic(object sender, EventArgs e)
+        {
+            if (autoModeActivateFlag)
+            {
+                SubmitAct();
+            }
+            else
+            {
+                myMediaPlayer.Stop();
+                myMediaPlayer.Play();
+            }
         }
 
         private void progressSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -666,11 +686,16 @@ namespace WavDataCheck
             }
             if (e.Key == Key.F11)
             {
+                AutoModeDeactivate(); // 오토모드 종료
                 CurrentIndexMinus();
             }
             if (e.Key == Key.F12)
             {
                 CurrentIndexPlus();
+            }
+            if(e.Key == Key.F6)
+            {
+                AutoModeAct();
             }
         }
 
@@ -698,6 +723,44 @@ namespace WavDataCheck
             showWin.Hide();
             App.FileSelectWin.Show();
             App.FileSelectWin.checkFileTextBox.Text = "";
+        }
+
+        private void autoModeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AutoModeAct();
+        }
+
+        private void AutoModeAct()
+        {
+            if (autoModeActivateFlag)
+            {
+                AutoModeDeactivate();
+            }
+            else
+            {
+                AutoModeActivate();
+            }
+        }
+
+        private void AutoModeActivate()
+        {
+            myMediaPlayer.Pause();
+            MessageBox.Show("자동 모드가 실행됩니다.");
+            autoModeActivateFlag = true;
+            autoModeBtn.Content = "자동모드중지(F6)";
+            if(totalTimeTxt.Text == progressTimeTxt.Text)
+            {
+                SubmitAct();
+            }
+            myMediaPlayer.Play();
+        }
+        private void AutoModeDeactivate()
+        {
+            myMediaPlayer.Pause();
+            MessageBox.Show("자동 모드가 중단됩니다.");
+            autoModeActivateFlag = false;
+            autoModeBtn.Content = "자동모드실행(F6)";
+            
         }
     }
 }

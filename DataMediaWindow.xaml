@@ -100,6 +100,7 @@
             <Button Width="100" Margin="0,0,10,0" x:Name="musicStopBtn" Click="musicStopBtn_Click">다시 듣기(F5)</Button>
             <Button Width="100" Margin="20,0,10,0" x:Name="prevFileBtn" Click="prevFileBtn_Click">이전(F11)</Button>
             <Button Width="100" Margin="0,0,10,0" x:Name="nextFileBtn" Click="nextFileBtn_Click">다음(F12)</Button>
+            <Button Width="100" Margin="20,0,10,0" x:Name="autoModeBtn" Click="autoModeBtn_Click">자동모드실행(F6)</Button>
         </StackPanel>
         <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="40,20,0,0">
             <TextBlock Text="전사 내용" FontSize="20" VerticalAlignment="Center" Margin="10"></TextBlock>

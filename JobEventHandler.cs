@@ -158,6 +158,10 @@ namespace WavDataCheck
             {
                 return "아니요";
             }
+            else if (input.Equals("나는"))
+            {
+                return "아니요";
+            }
             else if (input.Equals("안녕"))
             {
                 return "아니요";
@@ -173,6 +177,10 @@ namespace WavDataCheck
             else if (input.Equals("아니어라"))
             {
                 return "아니요";
+            }
+            else if (input.Equals("내일"))
+            {
+                return "네";
             }
             else if (input.Equals("예약"))
             {
