@@ -135,5 +135,10 @@ namespace WavDataCheck
         {
             System.Environment.Exit(0);
         }
+
+        private void eixtAppBtn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
     }
 }

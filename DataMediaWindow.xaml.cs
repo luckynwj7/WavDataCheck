@@ -322,6 +322,9 @@ namespace WavDataCheck
                 MessageBox.Show("압축 완료");
 
                 this.Hide();
+                showWin.Hide();
+                App.FileSelectWin.Show();
+                App.FileSelectWin.checkFileTextBox.Text = "";
 
                 // 검증 시 데이터 값이 초기화 되지 않는 현상
                 currentIndex = 0;

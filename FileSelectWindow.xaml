@@ -5,21 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WavDataCheck"
         mc:Ignorable="d"
-        Height="320" Width="500"
+        Height="350" Width="500"
         Title="DataCheck"
         Closing="Window_Closing">
     <StackPanel Margin="20,25,20,20">
-        <TextBlock Text="Data Check" FontSize="50" Margin="30,20,30,30" TextAlignment="Center"></TextBlock>
-        <StackPanel Orientation="Horizontal" Margin="10">
+        <TextBlock Text="Wav Data Check" FontSize="50" Margin="30,20,30,30" TextAlignment="Center"></TextBlock>
+        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
             <TextBlock Text="검수할 데이터 폴더 선택   " Width="160" TextAlignment="Right"></TextBlock>
             <TextBox Width="200" Name="checkFileTextBox"></TextBox>
             <Button Name="checkFileFindButton" Click="checkFileFindButton_Click">경로 찾기</Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10,20,10,10" HorizontalAlignment="Center">
-            <Button Padding="10" Name="checkTestStartButton" Click="checkTestStartButton_Click">검수 시작하기</Button>
+        <StackPanel Orientation="Horizontal" Margin="10,20,30,10" HorizontalAlignment="Right">
+            <Button Padding="10" Name="checkTestStartButton" Click="checkTestStartButton_Click" Width="100">검수 시작하기</Button>
+            <Button Padding="10" Name="eixtAppBtn" Click="eixtAppBtn_Click" Width="100" Margin="20,0,0,0">종료하기</Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0,20,0,0">
-            <TextBlock>문의 : 멀티플랫폼 오피스팀 노원종</TextBlock>
+            <TextBlock>제작 : 멀티플랫폼 오피스팀 노원종 연구원</TextBlock>
         </StackPanel>
     </StackPanel>
 </Window>
