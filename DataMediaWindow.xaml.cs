@@ -88,7 +88,7 @@ namespace WavDataCheck
             get { return scrollViewFlag; }
             set { scrollViewFlag = value; }
         }
-        private bool autoModeActivateFlag; // 자동 실행을 조정해주는 변수
+        private int autoModeActivateFlag; // 자동 실행을 조정해주는 변수. 0-한번씩, 1-하나 반복, 2- 자동모드
 
         private ShowDataWindow showWin;
 
@@ -103,7 +103,7 @@ namespace WavDataCheck
             currentJobRow = 0;
             currentIndex = 0;
             realFileCount = 0;
-            autoModeActivateFlag = false;
+            autoModeActivateFlag = 0;
             myMediaPlayer = new MediaPlayer();
             saveAndCheckBtn.Content += "\n(압축하지 않음. 검수전용)"; //버튼 컨텐츠
         }
@@ -112,7 +112,8 @@ namespace WavDataCheck
             showWin = ShowDataWindow.GetShowDataWindow(myFileRep.MyDataTable);
             showWin.Show();
 
-            
+
+            autoModeActivateFlag = 0;
             prevIndex = -1; // 이전 인덱스 초기값. -1로 하여 거절하게 만듬
             scrollViewFlag = false; //스크롤 뷰 초기값
 
@@ -229,7 +230,6 @@ namespace WavDataCheck
 
         private void prevFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            AutoModeDeactivate(); // 오토모드 종료
             CurrentIndexMinus();
         }
 
@@ -303,10 +303,12 @@ namespace WavDataCheck
 
         private void endZipBtn_Click(object sender, RoutedEventArgs e)
         {
+            myMediaPlayer.Pause();
             if (jobRateTxt.Text != "100.0")
             {
                 if ((MessageBox.Show("진행률이 100% 미만입니다. 그래도 압축하시겠습니까?", "압축", MessageBoxButton.YesNo)) == MessageBoxResult.No)
                 {
+                    myMediaPlayer.Play();
                     return;
                 }
             }
@@ -318,7 +320,15 @@ namespace WavDataCheck
                 JobEventHandler.InputDataSave(myFileRep.MyDataTable, resultFilePath);
                 JobEventHandler.CompressZipByIonic(mediaFilePath, savePath + "\\" + serverName + ".zip");
                 MessageBox.Show("압축 완료");
-                System.Environment.Exit(0);
+
+                this.Hide();
+
+                // 검증 시 데이터 값이 초기화 되지 않는 현상
+                currentIndex = 0;
+                fullJobCount = 0;
+                currentJobRow = 0;
+                // END
+
             }
             else if (savePath == mediaFilePath)
             {
@@ -371,14 +381,18 @@ namespace WavDataCheck
         }
         private void endedMusic(object sender, EventArgs e)
         {
-            if (autoModeActivateFlag)
+            if (autoModeActivateFlag==2)
             {
                 SubmitAct();
             }
-            else
+            else if(autoModeActivateFlag==1)
             {
                 myMediaPlayer.Stop();
                 myMediaPlayer.Play();
+            }
+            else
+            {
+                // 오토모드 없음
             }
         }
 
@@ -686,7 +700,6 @@ namespace WavDataCheck
             }
             if (e.Key == Key.F11)
             {
-                AutoModeDeactivate(); // 오토모드 종료
                 CurrentIndexMinus();
             }
             if (e.Key == Key.F12)
@@ -709,6 +722,7 @@ namespace WavDataCheck
 
         private void saveAndCheckBtn_Click(object sender, RoutedEventArgs e)
         {
+            myMediaPlayer.Pause();
             // 검증 시 데이터 값이 초기화 되지 않는 현상
             currentIndex = 0;
             fullJobCount = 0;
@@ -732,35 +746,45 @@ namespace WavDataCheck
 
         private void AutoModeAct()
         {
-            if (autoModeActivateFlag)
+            if (autoModeActivateFlag==0)
             {
-                AutoModeDeactivate();
+                LotateStartModeActivate();
             }
-            else
+            else if(autoModeActivateFlag==1)
             {
                 AutoModeActivate();
+            }
+            else if (autoModeActivateFlag == 2)
+            {
+                OneStartModeActivate();
             }
         }
 
         private void AutoModeActivate()
         {
             myMediaPlayer.Pause();
-            MessageBox.Show("자동 모드가 실행됩니다.");
-            autoModeActivateFlag = true;
-            autoModeBtn.Content = "자동모드중지(F6)";
-            if(totalTimeTxt.Text == progressTimeTxt.Text)
+            autoModeActivateFlag = 2;
+            autoModeImage.Source = JobEventHandler.GetImageFromResource(Properties.Resources.lotateAutoImage);
+            if (totalTimeTxt.Text == progressTimeTxt.Text)
             {
                 SubmitAct();
             }
             myMediaPlayer.Play();
         }
-        private void AutoModeDeactivate()
+        private void LotateStartModeActivate()
         {
             myMediaPlayer.Pause();
-            MessageBox.Show("자동 모드가 중단됩니다.");
-            autoModeActivateFlag = false;
-            autoModeBtn.Content = "자동모드실행(F6)";
-            
+            autoModeActivateFlag = 1;
+            autoModeImage.Source = JobEventHandler.GetImageFromResource(Properties.Resources.loateStartImage);
+            myMediaPlayer.Play();
+
+        }
+        private void OneStartModeActivate()
+        {
+            myMediaPlayer.Pause();
+            autoModeActivateFlag = 0;
+            autoModeImage.Source = JobEventHandler.GetImageFromResource(Properties.Resources.oneStartImage);
+            myMediaPlayer.Play();
         }
     }
 }

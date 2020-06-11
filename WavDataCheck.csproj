@@ -246,12 +246,29 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\loateStartImage.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\titleIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\titleImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lotateAutoImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oneStartImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="oneStartImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="lotateAutoImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="loateStartImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
